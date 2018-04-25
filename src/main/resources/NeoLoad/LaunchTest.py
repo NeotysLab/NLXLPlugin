@@ -49,37 +49,6 @@ response = session.execute()
 # set variables
 output = response.stdout
 error = response.stderr
-NeoLoadAverageResponsetime=Variable('NeoLoadAverageResponsetime', response.responsetime)
-NeoLoadAverageerror=Variable('NeoLoadAverageerror',response.error)
-NeoLoadAveragehit=Variable('NeoLoadAveragehit',response.hits)
-#variables=releaseApi.getVariables(releaseid)
-Createaveragersp=True
-Createaveragehit=True
-Createaveragezerror=True
-
-
-for vars in variables :
-    if vars.key== 'NeoLoadAverageResponsetime':
-        vars.value=response.responsetime
-        releaseApi.updateVariable(vars)
-        Createaveragersp=False
-    if vars.key== 'NeoLoadAverageerror':
-        vars.value=response.error
-        releaseApi.updateVariable(vars)
-        Createaveragezerror=False
-    if vars.key== 'NeoLoadAveragehit':
-        vars.value=response.hits
-        releaseApi.updateVariable(vars)
-        Createaveragehit=False
-
-if Createaveragersp== True:
-    releaseApi.createVariable(releaseid, NeoLoadAverageResponsetime)
-
-if Createaveragehit== True:
-    releaseApi.createVariable(releaseid,NeoLoadAveragehit )
-
-if Createaveragezerror== True:
-    releaseApi.createVariable(releaseid,NeoLoadAverageerror )
 
 reportxmlbyte=response.ReportXMLbytes
 reportdtdbyte=response.Reportdtdbytes
