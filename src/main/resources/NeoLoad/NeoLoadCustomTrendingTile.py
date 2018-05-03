@@ -4,29 +4,23 @@ from com.xebialabs.deployit.plugin.api.reflect import Type
 from com.neotys.xebialabs.xl import NeoLoadFileUtil
 from java.lang import Exception
 
-def GetNeoLoadData(title,releaseid,trendingtype):
-    output="{ \"type\":\""+trendingtype+"\","
+def GetNeoLoadData(title,releaseid,reportXpathQuery,NeoLoadKpiName):
+    output="{ \"type\":\""+NeoLoadKpiName+"\","
     result="\"data_graph\":[ "
 
     try:
 
         TasksList=_taskApi.searchTasksByTitle(title,None,releaseid)
         for task in TasksList:
-             if task.type.name=="CustomScriptTask" :
+            if task.type.name=="CustomScriptTask" :
                 # if task.type=="NeoLoad.LaunchTest" :
                 attachmens=task.attachments
                 for att in attachmens:
                     if att.fileUri=="jcr:report.xml":
                         file_byte= _releaseApi.getAttachment(att.id)
-                        if trendingtype == "Hit/s":
-                            hits=NeoLoadFileUtil.GetStat("hits",file_byte)
-                            result+="{\"kpi\":"+hits+"},"
-                        if trendingtype == "Response Time":
-                            error=NeoLoadFileUtil.GetStat("response",file_byte)
-                            result+="{\"kpi\":"+error+"},"
-                        if trendingtype == "Errors":
-                            response=NeoLoadFileUtil.GetStat("error",file_byte)
-                            result+="{\"kpi\":"+response+"},"
+                        hits=NeoLoadFileUtil.GetCustomStat(reportXpathQuery,file_byte)
+                        result+="{\"kpi\":"+hits+"},"
+
 
 
         if result[-1:] == ",":
@@ -44,8 +38,8 @@ def GetNeoLoadData(title,releaseid,trendingtype):
 
 releaseid=release.id
 
-if NeoLoadTaskTitle is not None and TrendingData is not None:
-    response=GetNeoLoadData(NeoLoadTaskTitle,releaseid,TrendingData)
+if NeoLoadTaskTitle is not None and reportXpathQuery is not None and NeoLoadKpiName is not None :
+    response=GetNeoLoadData(NeoLoadTaskTitle,releaseid,reportXpathQuery,NeoLoadKpiName)
     if response is not None:
         data = json.loads(response)
         # url = "/api/extension/neotys/TrendingData?NeoLoadTaskTitle="+NeoLoadTaskTitle+"&releaseid="+releaseid

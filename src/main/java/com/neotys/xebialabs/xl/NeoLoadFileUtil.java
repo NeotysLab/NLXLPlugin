@@ -8,10 +8,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,12 +88,9 @@ public  class  NeoLoadFileUtil {
     public static String GetCustomData(Document doc,String Xpath) throws XPathExpressionException {
         XPath xPath = XPathFactory.newInstance().newXPath();
         String result = null;
-        NodeList nodes = (NodeList)xPath.evaluate(Xpath, doc.getDocumentElement(), XPathConstants.NODESET);
-        for (int i = 0; i < nodes.getLength(); ++i) {
-            Element e = (Element) nodes.item(i);
-            result= e.getAttribute("value");
+        XPathExpression xPathExpression = xPath.compile(Xpath);
+        result=  (String)xPathExpression.evaluate(doc, XPathConstants.STRING);
 
-        }
         return result;
     }
 }

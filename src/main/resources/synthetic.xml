@@ -181,5 +181,19 @@
         <property name="expirationTime" kind="integer" hidden="true" default="3" description="Expiration time for a tile cache (in seconds)."/>
         <property name="maxCacheEntries" kind="integer" hidden="true" default="1" description="Maximum cache entries."/>
   </type>
+    <type type="NeoLoad.NeoLoadCustomTrendingTile" label="NeoLoad Custom Trending tile" extends="xlrelease.Tile">
+        <property name="uri" hidden="true" default="NeoLoad/NeoLoadTrendingTile/neoloadcustomtrending-summary-view.html"/>
+        <property name="detailsUri" hidden="true" default="NeoLoad/NeoLoadTrendingTile/neoloadcustom-details-view.html"/>
+        <property name="title" description="Tile title" default="NeoLoad custom Trending Graph"/>
+        <!-- <property name="embedded" kind="boolean" hidden="true" default="true" required="false"/>-->
+        <property category="input" name="NeoLoadTaskTitle"  label="Name of the NeoLoad tasks" description="Name of the Neoload xl release tasks" required="true"/>
+        <property category="input" name="NeoLoadKpiName"  label="Name of the metrics to trend" description="Name of the NeoLaod Kpi to trend" required="true"/>
 
+        <property name="reportXpathQuery" category="input" label="Type of Data" required="true" description="Xpath Query to extract the kpi" />
+
+        <property name="cacheEnabled" kind="boolean" hidden="true" default="false" description="True if tile data should be cached."/>
+        <property name="userSpecificCache" kind="boolean" hidden="true" default="false" description="True if tile data should be cached per user."/>
+        <property name="expirationTime" kind="integer" hidden="true" default="3" description="Expiration time for a tile cache (in seconds)."/>
+        <property name="maxCacheEntries" kind="integer" hidden="true" default="1" description="Maximum cache entries."/>
+    </type>
 </synthetic>
